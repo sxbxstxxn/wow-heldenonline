@@ -37,24 +37,168 @@
     <title>{{ title }}</title>
 </head>
 <body>
+    <header>
+        <h1>{{ title }}</h1>
+    </header>
     <div class="container-fluid">
-      <h1>{{title}}</h1>
+
       
       <!-- Dynamic Part -->
       
               
       {% for chars in chargroup %}
-        <div class="row">
+        <div class="row groups">
         {% if chars|length == 2 %}  
           <div class="col-sm-1">&nbsp;</div>
           {% for char in chars %}
             <div class="col-sm-4">
-              <div class="jumbotron">
-                {{ dump(char) }}
+              <div class="jumbotron jumbotron-fluid wowclass-{{ char.classid }}">
+                <div class="container-fluid">
+                    <div class="row charheader">
+                        <div class="col-sm-2"><img class="thumbpic" src="{{ thumburl }}{{ char.thumbnail }}"/></div>
+                        <div class="col-sm-10">
+                            <h3>{{ char.name }}</h3>
+                            <hr/>
+                            <div class="col-sm-4">
+                                {{ char.race }}
+                            </div>
+                            <div class="col-sm-4">
+                                {{ char.class }}
+                            </div>
+                            <div class="col-sm-4">
+                                {{ char.lastModified }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            Armee des Lichts
+                        </div>
+                        <div class="col-sm-8">
+                            {% if char.reputation.61.max == 21000 %}
+                                <progress max="{{ char.reputation.61.max }}" value="{{ char.reputation.61.value }}" data-label="respektvoll ({{ char.reputation.61.value }} / {{ char.reputation.61.max }})"></progress>
+                            {% elseif char.reputation.61.max == 12000 %}
+                                <progress max="{{ char.reputation.61.max }}" value="{{ char.reputation.61.value }}" data-label="wohlwollend ({{ char.reputation.61.value }} / {{ char.reputation.61.max }})"></progress>
+                            {% elseif char.reputation.61.max == 6000 %}
+                                <progress max="{{ char.reputation.61.max }}" value="{{ char.reputation.61.value }}" data-label="freundlich ({{ char.reputation.61.value }} / {{ char.reputation.61.max }})"></progress>
+                            {% elseif char.reputation.61.max == 3000 %}
+                                <progress max="{{ char.reputation.61.max }}" value="{{ char.reputation.61.value }}" data-label="neutral ({{ char.reputation.61.value }} / {{ char.reputation.61.max }})"></progress>
+                            {%  endif %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            Der Argusvorstoß
+                        </div>
+                        <div class="col-sm-8">
+                            {% if char.reputation.63.max == 21000 %}
+                                <progress max="{{ char.reputation.63.max }}" value="{{ char.reputation.63.value }}" data-label="respektvoll ({{ char.reputation.63.value }} / {{ char.reputation.63.max }})"></progress>
+                            {% elseif char.reputation.63.max == 12000 %}
+                                <progress max="{{ char.reputation.63.max }}" value="{{ char.reputation.63.value }}" data-label="wohlwollend ({{ char.reputation.63.value }} / {{ char.reputation.63.max }})"></progress>
+                            {% elseif char.reputation.63.max == 6000 %}
+                                <progress max="{{ char.reputation.63.max }}" value="{{ char.reputation.63.value }}" data-label="freundlich ({{ char.reputation.63.value }} / {{ char.reputation.63.max }})"></progress>
+                            {% elseif char.reputation.63.max == 3000 %}
+                                <progress max="{{ char.reputation.63.max }}" value="{{ char.reputation.63.value }}" data-label="neutral ({{ char.reputation.63.value }} / {{ char.reputation.63.max }})"></progress>
+                            {%  endif %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            7. Legion
+                        </div>
+                        <div class="col-sm-8">
+                            {% if char.reputation.55.max == 21000 %}
+                                <progress max="{{ char.reputation.55.max }}" value="{{ char.reputation.55.value }}" data-label="respektvoll ({{ char.reputation.55.value }} / {{ char.reputation.55.max }})"></progress>
+                            {% elseif char.reputation.55.max == 12000 %}
+                                <progress max="{{ char.reputation.55.max }}" value="{{ char.reputation.55.value }}" data-label="wohlwollend ({{ char.reputation.55.value }} / {{ char.reputation.55.max }})"></progress>
+                            {% elseif char.reputation.55.max == 6000 %}
+                                <progress max="{{ char.reputation.55.max }}" value="{{ char.reputation.55.value }}" data-label="freundlich ({{ char.reputation.55.value }} / {{ char.reputation.55.max }})"></progress>
+                            {% elseif char.reputation.55.max == 3000 %}
+                                <progress max="{{ char.reputation.55.max }}" value="{{ char.reputation.55.value }}" data-label="neutral ({{ char.reputation.55.value }} / {{ char.reputation.55.max }})"></progress>
+                            {%  endif %}
+                        </div>
+                    </div>
+                </div>
               </div>
             </div>
-            <div class="col-sm-1">&nbsp;</div>
+            {% if loop.first == 1 %}
+                <div class="col-sm-2">&nbsp;</div>
+            {% endif %}
           {% endfor %}
+          <div class="col-sm-1">&nbsp;</div>
+        {% elseif chars|length == 3 %}
+            {% for char in chars %}
+                <div class="col-sm-4">
+                    <div class="jumbotron jumbotron-fluid wowclass-{{ char.classid }}">
+                        <div class="container-fluid">
+                            <div class="row charheader">
+                                <div class="col-sm-2"><img class="thumbpic" src="{{ thumburl }}{{ char.thumbnail }}"/></div>
+                                <div class="col-sm-10">
+                                    <h3>{{ char.name }}</h3>
+                                    <hr/>
+                                    <div class="col-sm-4">
+                                        {{ char.race }}
+                                    </div>
+                                    <div class="col-sm-4">
+                                        {{ char.class }}
+                                    </div>
+                                    <div class="col-sm-4">
+                                        {{ char.lastModified }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row charrow">
+                                <div class="col-sm-4">
+                                    Armee des Lichts
+                                </div>
+                                <div class="col-sm-8">
+                                    {% if char.reputation.61.max == 21000 %}
+                                        <progress max="{{ char.reputation.61.max }}" value="{{ char.reputation.61.value }}" data-label="respektvoll ({{ char.reputation.61.value }} / {{ char.reputation.61.max }})"></progress>
+                                    {% elseif char.reputation.61.max == 12000 %}
+                                        <progress max="{{ char.reputation.61.max }}" value="{{ char.reputation.61.value }}" data-label="wohlwollend ({{ char.reputation.61.value }} / {{ char.reputation.61.max }})"></progress>
+                                    {% elseif char.reputation.61.max == 6000 %}
+                                        <progress max="{{ char.reputation.61.max }}" value="{{ char.reputation.61.value }}" data-label="freundlich ({{ char.reputation.61.value }} / {{ char.reputation.61.max }})"></progress>
+                                    {% elseif char.reputation.61.max == 3000 %}
+                                        <progress max="{{ char.reputation.61.max }}" value="{{ char.reputation.61.value }}" data-label="neutral ({{ char.reputation.61.value }} / {{ char.reputation.61.max }})"></progress>
+                                    {%  endif %}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    Der Argusvorstoß
+                                </div>
+                                <div class="col-sm-8">
+                                    {% if char.reputation.63.max == 21000 %}
+                                        <progress max="{{ char.reputation.63.max }}" value="{{ char.reputation.63.value }}" data-label="respektvoll ({{ char.reputation.63.value }} / {{ char.reputation.63.max }})"></progress>
+                                    {% elseif char.reputation.63.max == 12000 %}
+                                        <progress max="{{ char.reputation.63.max }}" value="{{ char.reputation.63.value }}" data-label="wohlwollend ({{ char.reputation.63.value }} / {{ char.reputation.63.max }})"></progress>
+                                    {% elseif char.reputation.63.max == 6000 %}
+                                        <progress max="{{ char.reputation.63.max }}" value="{{ char.reputation.63.value }}" data-label="freundlich ({{ char.reputation.63.value }} / {{ char.reputation.63.max }})"></progress>
+                                    {% elseif char.reputation.63.max == 3000 %}
+                                        <progress max="{{ char.reputation.63.max }}" value="{{ char.reputation.63.value }}" data-label="neutral ({{ char.reputation.63.value }} / {{ char.reputation.63.max }})"></progress>
+                                    {%  endif %}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    7. Legion
+                                </div>
+                                <div class="col-sm-8">
+                                    {% if char.reputation.55.max == 21000 %}
+                                        <progress max="{{ char.reputation.55.max }}" value="{{ char.reputation.55.value }}" data-label="respektvoll ({{ char.reputation.55.value }} / {{ char.reputation.55.max }})"></progress>
+                                    {% elseif char.reputation.55.max == 12000 %}
+                                        <progress max="{{ char.reputation.55.max }}" value="{{ char.reputation.55.value }}" data-label="wohlwollend ({{ char.reputation.55.value }} / {{ char.reputation.55.max }})"></progress>
+                                    {% elseif char.reputation.55.max == 6000 %}
+                                        <progress max="{{ char.reputation.55.max }}" value="{{ char.reputation.55.value }}" data-label="freundlich ({{ char.reputation.55.value }} / {{ char.reputation.55.max }})"></progress>
+                                    {% elseif char.reputation.55.max == 3000 %}
+                                        <progress max="{{ char.reputation.55.max }}" value="{{ char.reputation.55.value }}" data-label="neutral ({{ char.reputation.55.value }} / {{ char.reputation.55.max }})"></progress>
+                                    {%  endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         {% else %}
           <div class="col-sm-6 col-sm-offset-3">
             <div class="jumbotron">
@@ -66,11 +210,12 @@
       {% endfor %}
         
 
-      
-   
-      
-      
+
      
     </div>
+
+    <footer>
+        &copy; Sebastian Christoph
+    </footer>
 </body>
 </html>
