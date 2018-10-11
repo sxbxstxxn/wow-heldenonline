@@ -23,14 +23,14 @@ function getToken() {
   return $result->access_token;
 }
 
-function getRaces($token) {
+function getCharInfo($charname) {
+  
+  $token = getToken();
   //curl -H "Authorization: Bearer {access_token}" https://us.api.blizzard.com/data/wow/token/?namespace=dynamic-us
 
-  //$url = "https://eu.api.blizzard.com/data/wow/token/";
-  //$url = "https://eu.api.battle.net/wow/character/races";
-  //$url = "https://eu.api.battle.net/data/wow/connected-realm/";
-  //$url = "https://eu.api.battle.net/wow/realm/status";
-  $url = "https://eu.api.blizzard.com/wow/data/character/races?namespace=dynamic-eu";
+  //$url = "https://eu.api.blizzard.com/wow/data/character/races?namespace=dynamic-eu";
+  //$url = "https://eu.api.blizzard.com/wow/guild/malfurion/Noob%20Company?namespace=dynamic-eu&locale=de_DE&fields=members";
+  $url = "https://eu.api.blizzard.com/wow/character/malfurion/".$charname."?namespace=dynamic-eu&locale=de_DE&fields=feed,reputation";
   $authorization = "Authorization: Bearer ".$token;
 
 //$result = $authorization;
@@ -45,8 +45,7 @@ function getRaces($token) {
   //curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
   curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
-  $result = curl_exec($curl);
-
+  $result = json_decode(curl_exec($curl));
   curl_close($curl);
 //var_dump($result);exit;
 
@@ -54,10 +53,11 @@ function getRaces($token) {
   
 }
 
+$thumbnail_prefix = "http://render-eu.worldofwarcraft.com/character/";
 
-$token = getToken();
-$test = getRaces($token);
-
+$test = getCharInfo('golgari');
+echo '<pre>';
 var_dump($test);
+echo '</pre>';
 
 ?>
