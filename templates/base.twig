@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>    
+    
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="../images/favicons/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../images/favicons/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../images/favicons/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../images/favicons/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="../images/favicons/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="../images/favicons/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="../images/favicons/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../images/favicons/apple-touch-icon-152x152.png" />
+    <link rel="icon" type="image/png" href="../images/favicons/favicon-196x196.png" sizes="196x196" />
+    <link rel="icon" type="image/png" href="../images/favicons/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="../images/favicons/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="../images/favicons/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="../images/favicons/favicon-128.png" sizes="128x128" />
+    <meta name="application-name" content="&nbsp;"/>
+    <meta name="msapplication-TileColor" content="#FFFFFF" />
+    <meta name="msapplication-TileImage" content="../images/favicons/mstile-144x144.png" />
+    <meta name="msapplication-square70x70logo" content="../images/favicons/mstile-70x70.png" />
+    <meta name="msapplication-square150x150logo" content="../images/favicons/mstile-150x150.png" />
+    <meta name="msapplication-wide310x150logo" content="../images/favicons/mstile-310x150.png" />
+    <meta name="msapplication-square310x310logo" content="../images/favicons/mstile-310x310.png" />
+    
+    
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <div class="container-fluid">
+      <h1>{{title}}</h1>
+      
+      <!-- Dynamic Part -->
+      
+              
+      {% for chars in chargroup %}
+        <div class="row">
+        {% if chars|length == 2 %}  
+          <div class="col-sm-1">&nbsp;</div>
+          {% for char in chars %}
+            <div class="col-sm-4">
+              <div class="jumbotron">
+                {{ dump(char) }}
+              </div>
+            </div>
+            <div class="col-sm-1">&nbsp;</div>
+          {% endfor %}
+        {% else %}
+          <div class="col-sm-6 col-sm-offset-3">
+            <div class="jumbotron">
+              Wrong number of characters in group
+            </div>
+          </div>
+        {% endif %}
+        </div> 
+      {% endfor %}
+        
+
+      
+   
+      
+      
+     
+    </div>
+</body>
+</html>

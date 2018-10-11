@@ -1,0 +1,15 @@
+html, body {
+  background-color:#000;
+  color:#FFF;
+  font-family:Arial;
+}
+
+h1 {
+  text-align:center;
+}
+
+
+.jumbotron {
+  background-color:#000;
+  border:1px dashed #F00;
+}

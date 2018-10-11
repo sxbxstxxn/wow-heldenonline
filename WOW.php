@@ -1,35 +1,5 @@
 <?php
 
-require_once 'vendor/autoload.php';
-
-$loader = new Twig_Loader_Filesystem('templates');
-$twig = new Twig_Environment($loader, array(
-    'cache' => false,
-    'debug' => true,
-));
-$twig->addExtension(new Twig_Extension_Debug());
-
-$template = $twig->load('base.twig');
-
-$chargrp[] = array('golgari','firun');
-$chargrp[] = array('famerlor','teklador','golgari');
-
-
-
-//echo '<pre>';
-foreach ($chargrp as $key=>$chars) { 
-  foreach ($chars as $key2=>$char) {
-    $allchars[$key][$char] = getCharInfo($char);
-  }
-}
-//var_dump($allchars);
-//echo '</pre>';
-//exit;
-
-//echo $template->render(array('title' => 'WoW Helden Online', 'golgari' => $golgari));
-echo $template->render(array('chargroup' => $allchars));
-
-
 function getToken() {
 
   //curl -u {client_id}:{client_secret} -d grant_type=client_credentials https://us.battle.net/oauth/token
@@ -52,19 +22,42 @@ function getToken() {
   curl_close($curl);
   return $result->access_token;
 }
+
 function getCharInfo($charname) {
   
   $token = getToken();
-  $url = "https://eu.api.blizzard.com/wow/character/malfurion/".$charname."?namespace=dynamic-eu&locale=de_DE";
+  //curl -H "Authorization: Bearer {access_token}" https://us.api.blizzard.com/data/wow/token/?namespace=dynamic-us
+
+  //$url = "https://eu.api.blizzard.com/wow/data/character/races?namespace=dynamic-eu";
+  //$url = "https://eu.api.blizzard.com/wow/guild/malfurion/Noob%20Company?namespace=dynamic-eu&locale=de_DE&fields=members";
+  $url = "https://eu.api.blizzard.com/wow/character/malfurion/".$charname."?namespace=dynamic-eu&locale=de_DE&fields=feed,reputation";
   $authorization = "Authorization: Bearer ".$token;
+
+//$result = $authorization;
+//var_dump($authorization);exit;
+
+//  $params = ['namespace'=>'dynamic-eu'];
 
   $curl = curl_init();
   curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json' , $authorization ));  
+  //curl_setopt($curl, CURLOPT_POST, true);
   curl_setopt($curl, CURLOPT_URL, $url);
+  //curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
   curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
   $result = json_decode(curl_exec($curl));
   curl_close($curl);
+//var_dump($result);exit;
 
   return $result;
+  
 }
+
+$thumbnail_prefix = "http://render-eu.worldofwarcraft.com/character/";
+
+$test = getCharInfo('golgari');
+echo '<pre>';
+var_dump($test);
+echo '</pre>';
+
+?>
