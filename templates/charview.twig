@@ -1,0 +1,27 @@
+<div class="charview">
+    <div class="pic"><img src="{{ thumburl }}{{ char.thumbnail }}"/></div>
+    <div class="info">
+        <span class="name wowclass-{{ char.class }}">{{ char.name }}</span>
+        <span class="lastModified">{{ char.lastModified|date("d.m.Y H:i:s") }}</span>
+        <span class="race">{{ char.race }}</span>
+        <span class="class">{{ char.class }}</span>
+    </div>
+    <div class="reputations">
+        {% for rep in char.reputation %}
+            {% if rep.id in repgrp %}
+                <div class="reputation">
+                    <span class="name">{{ rep.name }}</span>
+                    <span class="progression">
+                        {% if rep.max == 21000 %}{% set ruf = 'ehrfürchtig' %}
+                        {% elseif rep.max == 12000 %}{% set ruf = 'respektvoll' %}
+                        {% elseif rep.max == 6000 %}{% set ruf = 'wohlwollend' %}
+                        {% elseif rep.max == 3000%}{% set ruf = 'freundlich' %}
+                        {% else %}{% set ruf = 'unbekannt' %}
+                        {% endif %}
+                        <progress class="{{ ruf }}" max="{{ rep.max }}" value="{{ rep.value }}" data-label="{{ ruf }} ({{ rep.value }} / {{ rep.max }})"></progress>
+                    </span>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>

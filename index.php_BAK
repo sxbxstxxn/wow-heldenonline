@@ -1,60 +1,47 @@
 <?php
 
+require_once 'vendor/autoload.php';
+
+$loader = new Twig_Loader_Filesystem('templates');
+$twig = new Twig_Environment($loader, array(
+    'cache' => false,
+    'debug' => true,
+));
+$twig->addExtension(new Twig_Extension_Debug());
+
+$template = $twig->load('base.twig');
+
+$thumbnail_prefix = "http://render-eu.worldofwarcraft.com/character/";
+
 //Chargrp has to be 2 or 3 characters, not more, not less
 $chargrp[] = array('golgari','firun');
 $chargrp[] = array('famerlor','rhazzazor','xebulon');
 
-//var_dump($chargrp);
 
-foreach ($chargrp as $key=>$chars) {
-  foreach ($chars as $char) {
-    save_char_in_db($char,$key);
+
+//echo '<pre>';
+foreach ($chargrp as $key=>$chars) { 
+  foreach ($chars as $key2=>$char) {
+    $allchars[$key][$char] = getCharInfo($char);
+    $r = $allchars[$key][$char]['race'];
+    $c = $allchars[$key][$char]['class'];
+    $l = $allchars[$key][$char]['lastModified']/1000;
+    $allchars[$key][$char]['race'] = getRace($r);
+    $allchars[$key][$char]['raceid'] = $r;
+    $allchars[$key][$char]['class'] = getClass($c);
+    $allchars[$key][$char]['classid'] = $c;
+    $allchars[$key][$char]['lastModified'] = date('d.m.Y H:i', $l);
   }
 }
+//var_dump($allchars);
+//echo '</pre>';
+//exit;
 
-/*
-$test = getCharInfo('golgari');
-echo '<pre>';
-var_dump($test);
-echo '</pre>';
-*/
+//$test = getClass(1);
+//echo $test;
+echo $template->render(array('title' => 'WOW Helden Online', 'chargroup' => $allchars, 'thumburl' => $thumbnail_prefix));
 
-function save_char_in_db($charname,$chargrp) {
-  
-  $db_host = 'localhost';
-  $db_username = 'whdon';
-  $db_password = 'Pl95wy$2';
-  $db_name = 'DB_whdon';  
-  $db = mysqli_connect($db_host,$db_username,$db_password,$db_name);
-  
-  if ($db) {    
-    $char = getCharInfo($charname);
 
-    $charreputation = str_replace("'","\'",json_encode($char['reputation'],JSON_UNESCAPED_UNICODE));
-    //$charfeed = str_replace("'","\'",json_encode($char['feed']));
-                                  
-    $sql = "INSERT INTO chars (name, grp, thumbnail, race, class, lastModified, reputation) VALUES 
-            ('".$char['name']."',".$chargrp.", '".$char['thumbnail']."', '".$char['race']."', '".$char['class']."', ".$char['lastModified'].", '".$charreputation."')            
-            ON DUPLICATE KEY UPDATE
-            grp = values(grp),
-            thumbnail = values(thumbnail),
-            race = values(race),
-            class = values(class),
-            lastModified = values(lastModified),
-            reputation = values(reputation)
-            ";
-    //var_dump($sql);exit;
-    if (mysqli_query($db, $sql)) {
-        echo "New record (Char: ".$char['name'].") created successfully<br/>";
-    } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($db);
-    }   
-  }
-  else {
-    die("Connection failed: " . mysqli_connect_error());
-  }       
-  //mysql_close($db);  
-}
 function getToken() {
 
   //curl -u {client_id}:{client_secret} -d grant_type=client_credentials https://us.battle.net/oauth/token
@@ -92,10 +79,6 @@ function getCharInfo($charname) {
 
   $result = (array)$preresult;
   curl_close($curl);
-
-  $result['class'] = getClass($result['class']);
-  $result['race'] = getRace($result['race']);
-  $result['lastModified'] = $result['lastModified']/1000;
 
   return $result;
 }
@@ -141,4 +124,3 @@ function getClass($id) {
 
     return $result;
 }
-?>

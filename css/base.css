@@ -1,6 +1,6 @@
 html, body {
-  background-color:#000;
-  color:#CCC;
+  background-color:#333333;
+  color:#CCCCCC;
   font-family:Arial;
 }
 
@@ -13,29 +13,74 @@ h3 {
   margin-bottom:0px;
 }
 
-
-hr {
-  margin-top:15px;
-  margin-bottom:15px;
+.row {
+  margin-bottom:10px;
 }
 
-.groups, .charheader {
-  margin-bottom:15px;
+.charview {
+  border: 1px dashed #CCCCCC;
+  padding: 10px;
+  min-height: 200px;
 }
 
-.charheader {
+.charview .pic {
+  width:35%;
+  float:left;
+}
+
+.charview .info {
+  width:65%;
+  float:left;
+}
+
+.charview .info .name {
+  width: 100%;
+  display: block;
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+}
+
+.charview .info .lastModified{
+  width: 100%;
+  display: block;
+  font-style:italic;
+  font-size:10px;
+  text-align:center;
+}
+
+.charview .info .race, .charview .info .class{
+  width: 50%;
+  display: block;
+  text-align:center;
+  float:left;
   font-weight:bold;
+  font-size:12px;
 }
 
-.jumbotron {
-  background-color:#000;
-  border:1px dashed #F00;
-  margin:0px;
-  padding-top:15px;
-  padding-bottom:15px;
-  padding-left:0px !important;
-  padding-right:0px !important;
-  border-radius:0px !important;
+.charview .reputations {
+  width:100%;
+  float:left;
+  margin-top:10px;
+}
+
+.charview .reputations .reputation {
+  width:100%;
+  float:left;
+}
+
+.charview .reputations .reputation .name {
+  font-size:12px;
+  width:50%;
+  display:block;
+  float:left;
+}
+
+.charview .reputations .reputation .progression {
+  font-size:12px;
+  width:50%;
+  display:block;
+  float:left;
 }
 
 progress {
@@ -50,22 +95,13 @@ progress:before {
   text-align:center;
   /*Position text over the progress bar */
   position:absolute;
-  left:0;
-  right:0;
 }
 
-progress::-webkit-progress-bar {
-  background-color: #222222;
-}
-
-progress::-webkit-progress-value {
-  background-color: #FF0000;
-}
-
-progress::-moz-progress-bar
-{
-  background-color: #FF0000;
-}
+progress::-webkit-progress-bar {background-color: #222222;}
+progress::-webkit-progress-value {background-color: #088A08;}
+progress.neutral::-webkit-progress-value {background-color: #FFFF00;}
+progress::-moz-progress-bar{background-color: #088A08;}
+progress.neutral::-moz-progress-bar{background-color: #088A08;}
 
 
 footer {
@@ -74,26 +110,26 @@ footer {
 }
 
 /*Krieger*/
-.wowclass-1 .charheader {color:#C79C6E;}
+.wowclass-Krieger {color:#C79C6E;}
 /*Paladin*/
-.wowclass-2 .charheader {color:#F58CBA;}
+.wowclass-Paladin {color:#F58CBA;}
 /*Jäger*/
-.wowclass-3 .charheader {color:#ABD473;}
+.wowclass-Jäger {color:#ABD473;}
 /*Schurke*/
-.wowclass-4 .charheader {color:#FFF569;}
+.wowclass-Schurke {color:#FFF569;}
 /*Priester*/
-.wowclass-5 .charheader {color:#FFFFFF;}
+.wowclass-Priester {color:#FFFFFF;}
 /*Todesritter*/
-.wowclass-6 .charheader {color:#C41F3B;}
+.wowclass-Todesritter {color:#C41F3B;}
 /*Schamane*/
-.wowclass-7 .charheader {color:#0070DE;}
+.wowclass-Schamane {color:#0070DE;}
 /*Magier*/
-.wowclass-8 .charheader {color:#40C7EB;}
-/*Hexer*/
-.wowclass-9 .charheader {color:#8787ED;}
+.wowclass-Magier {color:#40C7EB;}
+/*Hexenmeister*/
+.wowclass-Hexenmeister {color:#8787ED;}
 /*Mönch*/
-.wowclass-10 .charheader {color:#00FF96;}
+.wowclass-Mönch {color:#00FF96;}
 /*Druide*/
-.wowclass-11 .charheader {color:#FF7D0A;}
+.wowclass-Druide {color:#FF7D0A;}
 /*Dämonenjäger*/
-.wowclass-12 .charheader {color:#A330C9;}
+.wowclass-Dämonenjäger {color:#A330C9;}

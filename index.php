@@ -13,114 +13,51 @@ $template = $twig->load('base.twig');
 
 $thumbnail_prefix = "http://render-eu.worldofwarcraft.com/character/";
 
-//Chargrp has to be 2 or 3 characters, not more, not less
-$chargrp[] = array('golgari','firun');
-$chargrp[] = array('famerlor','rhazzazor','xebulon');
+$db_host = 'localhost';
+$db_username = 'whdon';
+$db_password = 'Pl95wy$2';
+$db_name = 'DB_whdon';  
+$db = mysqli_connect($db_host,$db_username,$db_password,$db_name);
 
+if ($db) { 
+  $sql = "SELECT * FROM chars";
+  if (mysqli_query($db, $sql)) {
+    $result = mysqli_query($db, $sql);
+    $chars = mysqli_fetch_all($result,MYSQLI_ASSOC);
+  } else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($db);
+  }   
+}
+else {
+  die("Connection failed: " . mysqli_connect_error());
+}
 
-
+$grps = array();
 //echo '<pre>';
-foreach ($chargrp as $key=>$chars) { 
-  foreach ($chars as $key2=>$char) {
-    $allchars[$key][$char] = getCharInfo($char);
-    $r = $allchars[$key][$char]['race'];
-    $c = $allchars[$key][$char]['class'];
-    $l = $allchars[$key][$char]['lastModified']/1000;
-    $allchars[$key][$char]['race'] = getRace($r);
-    $allchars[$key][$char]['raceid'] = $r;
-    $allchars[$key][$char]['class'] = getClass($c);
-    $allchars[$key][$char]['classid'] = $c;
-    $allchars[$key][$char]['lastModified'] = date('d.m.Y H:i', $l);
-  }
+foreach ($chars as $key=>$char) {
+    $char['reputation'] = json_decode($char['reputation']);
+    if (!in_array($char['grp'],$grps)) {
+        $grps[] = $char['grp'];
+    }
 }
-//var_dump($allchars);
-//echo '</pre>';
-//exit;
-
-//$test = getClass(1);
-//echo $test;
-echo $template->render(array('title' => 'WOW Helden Online', 'chargroup' => $allchars, 'thumburl' => $thumbnail_prefix));
 
 
-function getToken() {
-
-  //curl -u {client_id}:{client_secret} -d grant_type=client_credentials https://us.battle.net/oauth/token
-
-  $client_id = '8fe7546c82744a2b8cc0a7bd58bc2fce';
-  $client_secret = 'TEaKrWz2QXy36TCPEPXJTT3sKJ8gTIBe';
-  $url = "https://eu.battle.net/oauth/token";
-  $params = ['grant_type'=>'client_credentials'];
-
-  $curl = curl_init();
-  curl_setopt($curl, CURLOPT_POST, true);
-  curl_setopt($curl, CURLOPT_URL, $url);
-  curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
-  curl_setopt($curl, CURLOPT_USERPWD, $client_id.':'.$client_secret);
-  curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-  
-  $result = json_decode(curl_exec($curl));
-  
-
-  curl_close($curl);
-  return $result->access_token;
-}
-function getCharInfo($charname) {
-  
-  $token = getToken();
-  $url = "https://eu.api.blizzard.com/wow/character/malfurion/".$charname."?namespace=dynamic-eu&locale=de_DE&fields=reputation";
-  $authorization = "Authorization: Bearer ".$token;
-
-  $curl = curl_init();
-  curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json' , $authorization ));  
-  curl_setopt($curl, CURLOPT_URL, $url);
-  curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-
-  $preresult = json_decode(curl_exec($curl));
-
-  $result = (array)$preresult;
-  curl_close($curl);
-
-  return $result;
-}
-function getRace($id) {
-    $token = getToken();
-    $url = "https://eu.api.blizzard.com/wow/data/character/races?namespace=dynamic-eu&locale=de_DE&fields=reputation";
-    $authorization = "Authorization: Bearer ".$token;
-
-    $curl = curl_init();
-    curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json' , $authorization ));
-    curl_setopt($curl, CURLOPT_URL, $url);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-
-    $races = json_decode(curl_exec($curl),true);
-    curl_close($curl);
-
-    foreach ($races['races'] as $key=>$race) {
-        if ($race['id'] == $id) {
-            $result = $race['name'];
+foreach ($grps as $grp) {
+    $allgrps[$grp] = array();
+    foreach ($chars as $char) {
+        $char['reputation'] = json_decode($char['reputation'],JSON_UNESCAPED_UNICODE);
+        if ($grp==$char['grp']) {
+            $allgrps[$grp][] = $char;
         }
     }
-
-    return $result;
 }
-function getClass($id) {
-    $token = getToken();
-    $url = "https://eu.api.blizzard.com/wow/data/character/classes?namespace=dynamic-eu&locale=de_DE&fields=reputation";
-    $authorization = "Authorization: Bearer ".$token;
+/*
+echo '<pre>';
+var_dump($allgrps);
+echo '<pre>';
+*/
 
-    $curl = curl_init();
-    curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json' , $authorization ));
-    curl_setopt($curl, CURLOPT_URL, $url);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+$reputationgrp = array(2165,2170,2159,2162);
 
-    $classes = json_decode(curl_exec($curl),true);
-    curl_close($curl);
+echo $template->render(array('title' => 'WOW Helden Online', 'chargroups' => $allgrps, 'thumburl' => $thumbnail_prefix, 'repgrp' => $reputationgrp));
 
-    foreach ($classes['classes'] as $key=>$class) {
-        if ($class['id'] == $id) {
-            $result = $class['name'];
-        }
-    }
-
-    return $result;
-}
