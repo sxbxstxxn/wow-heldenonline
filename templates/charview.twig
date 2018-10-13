@@ -12,10 +12,10 @@
                 <div class="reputation">
                     <span class="name">{{ rep.name }}</span>
                     <span class="progression">
-                        {% if rep.max == 21000 %}{% set ruf = 'ehrfürchtig' %}
-                        {% elseif rep.max == 12000 %}{% set ruf = 'respektvoll' %}
-                        {% elseif rep.max == 6000 %}{% set ruf = 'wohlwollend' %}
-                        {% elseif rep.max == 3000%}{% set ruf = 'freundlich' %}
+                        {% if rep.max == 21000 %}{% set ruf = 'respektvoll' %}
+                        {% elseif rep.max == 12000 %}{% set ruf = 'wohlwollend' %}
+                        {% elseif rep.max == 6000 %}{% set ruf = 'freundlich' %}
+                        {% elseif rep.max == 3000%}{% set ruf = 'neutral' %}
                         {% else %}{% set ruf = 'unbekannt' %}
                         {% endif %}
                         <progress class="{{ ruf }}" max="{{ rep.max }}" value="{{ rep.value }}" data-label="{{ ruf }} ({{ rep.value }} / {{ rep.max }})"></progress>
