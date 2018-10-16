@@ -58,6 +58,21 @@ h3 {
   font-size:12px;
 }
 
+.charview .info .level {
+  width: 50%;
+  display: block;
+  font-size:12px;
+  float:left;
+}
+
+.charview .info .itemlvl {
+  width: 50%;
+  text-align: right;
+  display: block;
+  font-size:12px;
+  float:left;
+}
+
 .charview .reputations {
   width:100%;
   float:left;
@@ -81,6 +96,18 @@ h3 {
   width:50%;
   display:block;
   float:left;
+}
+
+.charview .feed {
+  width:100%;
+  float:left;
+}
+
+.charview .achievement {
+  width:100%;
+  float:left;
+  display:block;
+  font-size:12px;
 }
 
 progress {

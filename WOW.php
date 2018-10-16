@@ -2,7 +2,7 @@
 
 //Chargrp has to be 2 or 3 characters, not more, not less
 $chargrp[] = array('golgari','firun');
-$chargrp[] = array('famerlor','rhazzazor','xebulon');
+$chargrp[] = array('famerlor','rhazzazor', 'teklador');
 
 //var_dump($chargrp);
 
@@ -13,9 +13,10 @@ foreach ($chargrp as $key=>$chars) {
 }
 
 /*
-$test = getCharInfo('golgari');
+$test = getCharInfo('firun');
 echo '<pre>';
-var_dump($test);
+//$bla = str_replace("'","\'",json_encode($test['feed'],JSON_UNESCAPED_UNICODE));
+var_dump($test["feed"]);
 echo '</pre>';
 */
 
@@ -31,23 +32,32 @@ function save_char_in_db($charname,$chargrp) {
     $char = getCharInfo($charname);
 
     $charreputation = str_replace("'","\'",json_encode($char['reputation'],JSON_UNESCAPED_UNICODE));
+    $charitems = str_replace("'","\'",json_encode($char['items'],JSON_UNESCAPED_UNICODE));
+    $charprofessions = str_replace("'","\'",json_encode($char['professions'],JSON_UNESCAPED_UNICODE));
+    $charfeed = str_replace("'","\'",json_encode($char['feed'],JSON_UNESCAPED_UNICODE));
+    $charfeed = str_replace('"','\"',$charfeed);
     //$charfeed = str_replace("'","\'",json_encode($char['feed']));
                                   
-    $sql = "INSERT INTO chars (name, grp, thumbnail, race, class, lastModified, reputation) VALUES 
-            ('".$char['name']."',".$chargrp.", '".$char['thumbnail']."', '".$char['race']."', '".$char['class']."', ".$char['lastModified'].", '".$charreputation."')            
+    $sql = "INSERT INTO chars (name, grp, level, thumbnail, race, class, lastModified, feed, reputation, items, professions) VALUES 
+            ('".$char['name']."',".$chargrp.", ".$char['level'].", '".$char['thumbnail']."', '".$char['race']."', '".$char['class']."', ".$char['lastModified'].", '".$charfeed."', '".$charreputation."', '".$charitems."', '".$charprofessions."')            
             ON DUPLICATE KEY UPDATE
             grp = values(grp),
+            level = values(level),
             thumbnail = values(thumbnail),
             race = values(race),
             class = values(class),
             lastModified = values(lastModified),
-            reputation = values(reputation)
+            reputation = values(reputation),
+            feed = values(feed),
+            items = values(items),
+            professions = values(professions)
             ";
     //var_dump($sql);exit;
     if (mysqli_query($db, $sql)) {
         echo "New record (Char: ".$char['name'].") created successfully<br/>";
     } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($db);
+       echo "Error: " . $sql . "<br>" . mysqli_error($db);
+      //echo "Error: <br>" . mysqli_error($db);
     }   
   }
   else {
@@ -80,7 +90,7 @@ function getToken() {
 function getCharInfo($charname) {
   
   $token = getToken();
-  $url = "https://eu.api.blizzard.com/wow/character/malfurion/".$charname."?namespace=dynamic-eu&locale=de_DE&fields=reputation";
+  $url = "https://eu.api.blizzard.com/wow/character/malfurion/".$charname."?namespace=dynamic-eu&locale=de_DE&fields=reputation,feed,items,professions";
   $authorization = "Authorization: Bearer ".$token;
 
   $curl = curl_init();

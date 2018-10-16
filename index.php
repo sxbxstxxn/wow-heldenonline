@@ -36,6 +36,9 @@ $grps = array();
 //echo '<pre>';
 foreach ($chars as $key=>$char) {
     $char['reputation'] = json_decode($char['reputation']);
+    $char['items'] = json_decode($char['items']);
+    $char['professions'] = json_decode($char['professions']);
+    $char['feed'] = json_decode($char['feed']);
     if (!in_array($char['grp'],$grps)) {
         $grps[] = $char['grp'];
     }
@@ -46,6 +49,9 @@ foreach ($grps as $grp) {
     $allgrps[$grp] = array();
     foreach ($chars as $char) {
         $char['reputation'] = json_decode($char['reputation'],JSON_UNESCAPED_UNICODE);
+        $char['items'] = json_decode($char['items'],JSON_UNESCAPED_UNICODE);
+        $char['professions'] = json_decode($char['professions'],JSON_UNESCAPED_UNICODE);
+        $char['feed'] = json_decode($char['feed'],JSON_UNESCAPED_UNICODE);
         if ($grp==$char['grp']) {
             $allgrps[$grp][] = $char;
         }
