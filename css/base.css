@@ -147,6 +147,7 @@ progress:before {
 progress::-webkit-progress-bar {background-color: #222222;}
 progress::-webkit-progress-value {background-color: #088A08;}
 progress.neutral::-webkit-progress-value {background-color: #FFFF00;}
+progress.unfreundlich::-webkit-progress-value, progress.feindselig::-webkit-progress-value, progress.hasserfuellt::-webkit-progress-value {background-color: #FF0000;}
 progress::-moz-progress-bar{background-color: #088A08;}
 progress.neutral::-moz-progress-bar{background-color: #088A08;}
 

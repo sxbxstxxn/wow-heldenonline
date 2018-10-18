@@ -6,7 +6,7 @@ $chargrp[] = array('rhazzazor');
 $chargrp[] = array('famerlor');
 
 //var_dump($chargrp);
-
+clear_db();
 foreach ($chargrp as $key=>$chars) {
   foreach ($chars as $char) {
     save_char_in_db($char,$key);
@@ -151,5 +151,29 @@ function getClass($id) {
     }
 
     return $result;
+}
+function clear_db() {
+  
+  $db_host = 'localhost';
+  $db_username = 'whdon';
+  $db_password = 'Pl95wy$2';
+  $db_name = 'DB_whdon';  
+  $db = mysqli_connect($db_host,$db_username,$db_password,$db_name);
+  
+  if ($db) {    
+    
+                                  
+    $sql = "DELETE FROM chars";
+    //var_dump($sql);exit;
+    if (mysqli_query($db, $sql)) {
+        echo "Database cleared<br/>";
+    } else {
+       echo "Error: " . $sql . "<br>" . mysqli_error($db);
+      //echo "Error: <br>" . mysqli_error($db);
+    }   
+  }
+  else {
+    die("Connection failed: " . mysqli_connect_error());
+  }  
 }
 ?>

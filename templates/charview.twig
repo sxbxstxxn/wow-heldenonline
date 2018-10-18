@@ -14,13 +14,21 @@
                 <div class="reputation col-sm-12">
                     <div class="name col-sm-3">{{ rep.name }}</div>
                     <div class="progression col-sm-9">
-                        {% if rep.max == 21000 %}{% set ruf = 'respektvoll' %}
-                        {% elseif rep.max == 12000 %}{% set ruf = 'wohlwollend' %}
-                        {% elseif rep.max == 6000 %}{% set ruf = 'freundlich' %}
-                        {% elseif rep.max == 3000%}{% set ruf = 'neutral' %}
+                        {% if rep.standing == 7 %}{% set ruf = 'ehrfürchtig' %}
+                        {% elseif rep.standing == 6 %}{% set ruf = 'respektvoll' %}
+                        {% elseif rep.standing == 5 %}{% set ruf = 'wohlwollend' %}
+                        {% elseif rep.standing == 4 %}{% set ruf = 'freundlich' %}
+                        {% elseif rep.standing == 3 %}{% set ruf = 'neutral' %}
+                        {% elseif rep.standing == 2 %}{% set ruf = 'unfreundlich' %}
+                        {% elseif rep.standing == 1 %}{% set ruf = 'feindselig' %}
+                        {% elseif rep.standing == 0 %}{% set ruf = 'hasserfuellt' %}
                         {% else %}{% set ruf = 'unbekannt' %}
                         {% endif %}
-                        <progress class="{{ ruf }}" max="{{ rep.max }}" value="{{ rep.value }}" data-label="{{ ruf }} ({{ rep.value }} / {{ rep.max }})"></progress>
+                        {% if rep.standing == 7 %}{% set ruf = 'ehrfürchtig' %}
+                          <progress class="{{ ruf }}" max="21000" value="21000" data-label="{{ ruf }}"></progress>
+                        {% else %}
+                          <progress class="{{ ruf }}" max="{{ rep.max }}" value="{{ rep.value }}" data-label="{{ ruf }} ({{ rep.value }} / {{ rep.max }})"></progress>
+                        {% endif %}
                     </div>
                 </div>
             {% endif %}
