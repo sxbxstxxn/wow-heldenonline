@@ -6,20 +6,20 @@ $chargrp[] = array('rhazzazor');
 $chargrp[] = array('famerlor');
 
 //var_dump($chargrp);
-
+/*
 foreach ($chargrp as $key=>$chars) {
   foreach ($chars as $char) {
     save_char_in_db($char,$key);
   }
 }
+*/
 
-/*
 $test = getCharInfo('firun');
 echo '<pre>';
 //$bla = str_replace("'","\'",json_encode($test['feed'],JSON_UNESCAPED_UNICODE));
 var_dump($test["feed"]);
 echo '</pre>';
-*/
+
 
 function save_char_in_db($charname,$chargrp) {
   

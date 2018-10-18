@@ -1,19 +1,19 @@
-<div class="charview">
-    <div class="pic"><img src="{{ thumburl }}{{ char.thumbnail }}"/></div>
-    <div class="info">
-        <span class="name wowclass-{{ char.class }}">{{ char.name }}</span>
-        <span class="lastModified">{{ char.lastModified|date("d.m.Y H:i:s") }}</span>
-        <span class="race">{{ char.race }}</span>
-        <span class="class">{{ char.class }}</span>
-        <span class="level">Stufe {{ char.level }}</span>
-        <span class="itemlvl">Item Level {{ char.items.averageItemLevel }}</span>
+<div class="charview clearfix">
+    <div class="main col-sm-12">
+      <div class="pic col-sm-3"><img src="{{ thumburl }}{{ char.thumbnail }}"/></div>
+      <div class="info col-sm-9">
+        <div class="name wowclass-{{ char.class }} col-sm-12">{{ char.name }}</div>
+        <div class="lastModified col-sm-12">{{ char.lastModified|date("d.m.Y H:i:s") }}</div>
+        <div class="profile col-sm-12">{{ char.race }} | {{ char.class }} | Stufe {{ char.level }}</div>
+        <div class="itemlvl col-sm-12">Item Level <b>{{ char.items.averageItemLevel }}</b></div>
+      </div>
     </div>
-    <div class="reputations">
+    <div class="reputations col-sm-12">
         {% for rep in char.reputation %}
             {% if rep.id in repgrp %}
-                <div class="reputation">
-                    <span class="name">{{ rep.name }}</span>
-                    <span class="progression">
+                <div class="reputation col-sm-12">
+                    <div class="name col-sm-3">{{ rep.name }}</div>
+                    <div class="progression col-sm-9">
                         {% if rep.max == 21000 %}{% set ruf = 'respektvoll' %}
                         {% elseif rep.max == 12000 %}{% set ruf = 'wohlwollend' %}
                         {% elseif rep.max == 6000 %}{% set ruf = 'freundlich' %}
@@ -21,18 +21,35 @@
                         {% else %}{% set ruf = 'unbekannt' %}
                         {% endif %}
                         <progress class="{{ ruf }}" max="{{ rep.max }}" value="{{ rep.value }}" data-label="{{ ruf }} ({{ rep.value }} / {{ rep.max }})"></progress>
-                    </span>
+                    </div>
                 </div>
             {% endif %}
         {% endfor %}
     </div>
-    <div class="feed" style="display:none;">
-      {% for activity in char.feed %}
-        {% if activity.type == "ACHIEVEMENT" %}
-        <span class="achievement achievement-{{loop.index0}}">
-          {{ activity.achievement.title }} ({{ activity.achievement.id }})
-        </span>  
-        {% endif %}
-      {% endfor %}
+    <div class="feed col-sm-12">
+      <div class="achievements col-sm-6"> 
+        <div class="achievement-header">Letzte Erfolge:</div>
+          {% set maxAchievements=0 %}          
+          {% for activity in char.feed %}          
+            {% if activity.type == "ACHIEVEMENT" and maxAchievements < 5 %}
+            {% set maxAchievements=maxAchievements+1 %}
+            <div class="achievement feed-{{loop.index0}} col-sm-12">
+              <a href="//de.wowhead.com/achievement={{ activity.achievement.id }}">{{ activity.achievement.title }}</a>
+            </div>  
+            {% endif %}
+          {% endfor %}
+      </div>
+      <div class="loots col-sm-6">     
+        <div class="loot-header">Letzte Beute:</div>
+          {% set maxLoots=0 %}
+          {% for activity in char.feed %}
+            {% if activity.type == "LOOT" and maxLoots < 5 %}
+            {% set maxLoots=maxLoots+1 %}
+            <div class="loot feed-{{loop.index0}} col-sm-12">
+              <a href="//de.wowhead.com/item={{ activity.itemId }}">{{ activity.itemId }}</a>
+            </div> 
+            {% endif %}
+          {% endfor %}
+      </div>      
     </div>
 </div>
