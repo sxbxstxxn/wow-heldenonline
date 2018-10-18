@@ -37,7 +37,7 @@ $grps = array();
 foreach ($chars as $key=>$char) {
     $char['reputation'] = json_decode($char['reputation']);
     $char['items'] = json_decode($char['items']);
-    $char['professions'] = json_decode($char['professions']);
+    $char['professions'] = json_decode($char['professions'],JSON_OBJECT_AS_ARRAY);
     $char['feed'] = json_decode($char['feed']);
     if (!in_array($char['grp'],$grps)) {
         $grps[] = $char['grp'];
@@ -65,5 +65,11 @@ echo '<pre>';
 
 $reputationgrp = array(2165,2170,2159,2162);
 
-echo $template->render(array('title' => 'WOW Helden Online', 'chargroups' => $allgrps, 'thumburl' => $thumbnail_prefix, 'repgrp' => $reputationgrp));
+// 2533 | Schneiderei von Kul Tiras
+// 2486 | Verzauberkunst von Kul Tiras
+// 2549 | Kräuterkunde von Kul Tiras
+// 2507 | Inschriftenkunde von Kul Tiras
+$professiongrp = array(2533,2486,2549,2507);
+
+echo $template->render(array('title' => 'WOW Helden Online', 'chargroups' => $allgrps, 'thumburl' => $thumbnail_prefix, 'repgrp' => $reputationgrp, 'profgrp' => $professiongrp));
 

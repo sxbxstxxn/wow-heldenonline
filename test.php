@@ -13,14 +13,15 @@ foreach ($chargrp as $key=>$chars) {
   }
 }
 */
-/*
+
 $test = getCharInfo('golgari');
 echo '<pre>';
-//$bla = str_replace("'","\'",json_encode($test['feed'],JSON_UNESCAPED_UNICODE));
-var_dump($test["reputation"]);
+$bla = str_replace("'","\'",json_encode($test['professions'],JSON_UNESCAPED_UNICODE));
+$bla = json_decode($bla,JSON_OBJECT_AS_ARRAY);
+var_dump($bla["primary"]);
 echo '</pre>';
-*/
-clear_db();
+
+
 
 function save_char_in_db($charname,$chargrp) {
   

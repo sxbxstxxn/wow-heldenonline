@@ -60,4 +60,14 @@
           {% endfor %}
       </div>      
     </div>
+    <div class="professions col-sm-12">
+      <div class="profession-header">Berufe in Kul Tiras:</div>
+      {% for profession in professions.primary %}
+        {% if profession.id in profgrp %}
+        <div class="profession">
+          <progress class="profession-{{ profession.id }}" max="{{ profession.max }}" value="{{ profession.rank }}" data-label="{{ profession.name }} ({{ profession.rank }} / {{ profession.max }})"></progress>
+        </div>
+        {% endif %}
+      {% endfor %}
+    </div>
 </div>
