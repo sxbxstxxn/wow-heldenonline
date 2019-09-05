@@ -2,10 +2,27 @@
     <div class="main col-sm-12">
       <div class="pic col-sm-3"><img src="{{ thumburl }}{{ char.thumbnail }}"/></div>
       <div class="info col-sm-9">
-        <div class="name wowclass-{{ char.class }} col-sm-12">{{ char.name }}</div>
-        <div class="lastModified col-sm-12">{{ char.lastModified|date("d.m.Y H:i:s") }}</div>
-        <div class="profile col-sm-12">{{ char.race }} | {{ char.class }} | Stufe {{ char.level }}</div>
-        <div class="itemlvl col-sm-12">Item Level <b>{{ char.items.averageItemLevel }}</b></div>
+        <div class="name wowclass-{{ char.class }} col-sm-8">
+          <div class="col-sm-12">{{ char.name }}</div>
+          <div class="lastModifiedlabel col-sm-12">zuletzt online:</div>
+          <div class="lastModified col-sm-12">{{ char.lastModified|date("d.m.Y H:i:s") }}</div>
+        </div>
+        <div class="stufe wowclass-{{ char.class }} col-sm-4">
+          <div class="col-sm-12">Stufe {{ char.level }}</div>
+          <div class="col-sm-12">{{ char.race }}</div>
+          <div class="col-sm-12">{{ char.class }}</div>
+          <div class="col-sm-12">Item Level <b>{{ char.items.averageItemLevel }}</div>
+        </div>
+        <div class="professions col-sm-12">
+          {% for profession in professions.primary %}
+            {% if profession.id in profgrp %}
+            <div class="profession">
+              <progress class="profession-{{ profession.id }}" max="{{ profession.max }}" value="{{ profession.rank }}" data-label="{{ profession.name }} ({{ profession.rank }} / {{ profession.max }})"></progress>
+            </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+
       </div>
     </div>
     <div class="reputations col-sm-12">
@@ -60,14 +77,5 @@
           {% endfor %}
       </div>      
     </div>
-    <div class="professions col-sm-12">
-      <div class="profession-header">Berufe in Kul Tiras:</div>
-      {% for profession in professions.primary %}
-        {% if profession.id in profgrp %}
-        <div class="profession">
-          <progress class="profession-{{ profession.id }}" max="{{ profession.max }}" value="{{ profession.rank }}" data-label="{{ profession.name }} ({{ profession.rank }} / {{ profession.max }})"></progress>
-        </div>
-        {% endif %}
-      {% endfor %}
-    </div>
+
 </div>

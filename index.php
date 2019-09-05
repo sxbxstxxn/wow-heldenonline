@@ -38,7 +38,8 @@ foreach ($chars as $key=>$char) {
     $char['reputation'] = json_decode($char['reputation']);
     $char['items'] = json_decode($char['items']);
     $char['professions'] = json_decode($char['professions'],JSON_OBJECT_AS_ARRAY);
-    $char['feed'] = json_decode($char['feed']);
+    $char['feed'] = json_decode($char['feed'], true);
+    $char['talents'] = json_decode($char['talents'], true);
     if (!in_array($char['grp'],$grps)) {
         $grps[] = $char['grp'];
     }
@@ -52,18 +53,29 @@ foreach ($grps as $grp) {
         $char['items'] = json_decode($char['items'],JSON_UNESCAPED_UNICODE);
         $char['professions'] = json_decode($char['professions'],JSON_UNESCAPED_UNICODE);
         $char['feed'] = json_decode($char['feed'],JSON_UNESCAPED_UNICODE);
+        $char['talents'] = json_decode($char['talents'],JSON_UNESCAPED_UNICODE); 
         if ($grp==$char['grp']) {
             $allgrps[$grp][] = $char;
         }
     }
 }
+
+
+//var_dump($test);exit;
 /*
 echo '<pre>';
-var_dump($allgrps);
-echo '<pre>';
+$test = json_decode($allgrps[0][1]['feed'],true);
+var_dump(json_last_error_msg());
+echo '</pre>';
 */
-
-$reputationgrp = array(2165,2170,2159,2162);
+# 7.Legion = 2159
+# Sturmwwacht = 2162
+# Armee des Lichts = 2165
+# Argusvorstoß = 2170
+# Champions von Azeroth = 2164
+# Glutorden = 2161
+# Prachtmeeradmiralität = 2160
+$reputationgrp = array(2159);
 
 // 2533 | Schneiderei von Kul Tiras
 // 2486 | Verzauberkunst von Kul Tiras

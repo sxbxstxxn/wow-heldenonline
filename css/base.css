@@ -48,12 +48,24 @@ h3 {
   overflow: hidden;
 }
 
+.charview .info .stufe {
+  font-weight:bold;
+  text-align:right;
+  font-size:14pt;
+}
+
 .charview .info .lastModified{
   font-style:italic;
   font-size:20px;
   text-align:center;
   white-space: nowrap;
   overflow: hidden;  
+}
+
+.charview .info .lastModifiedlabel {
+  font-size: 12pt;
+  font-style: italic;
+  color: #aaaaaa;
 }
 
 .charview .info .profile {
@@ -129,9 +141,7 @@ h3 {
 }
 
 
-.charview .professions .profession-header {
-  font-size:24px;
-}
+
 
 .charview .professions .profession {
   font-size:24px;

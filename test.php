@@ -1,9 +1,9 @@
 <?php
 
 //Chargrp has to be 2 or 3 characters, not more, not less
-$chargrp[] = array('golgari','firun');
+$chargrp[] = array('boron','firun');
 $chargrp[] = array('rhazzazor');
-$chargrp[] = array('famerlor');
+$chargrp[] = array('golgari','ucuri');
 
 //var_dump($chargrp);
 /*
@@ -14,12 +14,112 @@ foreach ($chargrp as $key=>$chars) {
 }
 */
 
-$test = getCharInfo('golgari');
+$char = getCharInfo('boron');
+
+$charfeed = json_encode($char['feed'],JSON_HEX_APOS ,JSON_HEX_QUOT);
+$charfeed2 = preg_replace("/[\n\r]/","",$charfeed);
+//$charfeed = str_replace("'","\'",$charfeed);
+//$charfeed = str_replace('"','\"',$charfeed);
+//$charfeed = str_replace("\r\n", " ",$charfeed);
+
+$test = json_decode($charfeed,JSON_PARTIAL_OUTPUT_ON_ERROR );
+//$test = $char['feed'];
+$error = json_last_error();
+
+/*
+foreach ($test as $testkey => $testvalue) {
+  //if (is_string($a)) {$a = preg_replace("/[\n\r]/","",$a);}  
+  foreach ($testvalue as $akey => $avalue) {    
+    //if (is_string($b)) {$b = preg_replace("/[\n\r]/","",$b);}
+    foreach ($avalue as $bkey => $bvalue) {
+      //if (is_string($c)) {$c = preg_replace("/[\n\r]/","",$c);}
+      foreach ($bvalue as $ckey => $cvalue) {
+        //if (is_string($d)) {$d = preg_replace("/[\n\r]/","",$d);}        
+        foreach ($cvalue as $dkey => $dvalue) {
+          //if (is_string($e)) {$e = preg_replace("/[\n\r]/","",$e);}
+          $X = $test[$testkey][$akey][$bkey][$ckey][$dkey];
+          if (is_string($X) && !isnull($X)) {$X = preg_replace("/[\n\r]/","",$X);}
+          $test[$testkey][$akey][$bkey][$ckey][$dkey] = $X;          
+        }
+      }
+    }
+  }
+}
+
+$var = $test[18]['achievement']['criteria'][0]['description'];
+*/
+
+
 echo '<pre>';
-$bla = str_replace("'","\'",json_encode($test['professions'],JSON_UNESCAPED_UNICODE));
-$bla = json_decode($bla,JSON_OBJECT_AS_ARRAY);
-var_dump($bla["primary"]);
+//$chartalents = array($char['talents']);
+
+/*
+foreach ($chartalents as $key=>$chartalent) {
+  $a = (array)$chartalent[$key];
+  $b = (array)$a;
+  if ($b['selected'] == true) {
+    $c = array($b);
+    echo 'Spec:';
+    var_dump($c['spec']);
+    echo '<br/>';
+  }
+  
+}
+*/
+
+
+//$bla = str_replace("'","\'",json_encode($test['feed'],JSON_UNESCAPED_UNICODE));
+//$bla = json_decode($bla,JSON_OBJECT_AS_ARRAY);
+//$newstring = preg_replace("/[\n\r]/","",$var);
+//var_dump($char['feed']);
+//echo '<br/>';
+$chartalents = json_encode($char['reputation'],JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE);
+$chartalents = preg_replace("/[\n\r]/","",$chartalents);
+//$chartalents = preg_replace("/[\n\r]/","",$chartalents);
+/*
+$chartalents = json_decode($chartalents,true);
+
+foreach ($chartalents as $key=>$chartalent) {
+  if ($chartalent['selected'] == true) {
+    //echo 'Specname: '.$chartalent['spec']['name'].' | Specrole: '.$chartalent['spec']['role'].' | <img src="http://media.blizzard.com/wow/icons/56/'.$chartalent['spec']['icon'].'.jpg" title="'.$chartalent['spec']['description'].'"/>';
+    var_dump($chartalent['spec']);
+    echo '<br/>';
+  }
+}
+*/
+
+
+ $test2 = json_decode($chartalents,true,JSON_PARTIAL_OUTPUT_ON_ERROR );
+    $error = json_last_error();
+    if ($error !== 0) {
+      $chartalents = json_encode('');
+    }
+
+foreach ($test2 as $test2key => $test2value) {
+      //if (is_string($a)) {$a = preg_replace("/[\n\r]/","",$a);}  
+      foreach ($test2value as $a2key => $a2value) {    
+        //if (is_string($b)) {$b = preg_replace("/[\n\r]/","",$b);}
+        foreach ($a2value as $b2key => $b2value) {
+          //if (is_string($c)) {$c = preg_replace("/[\n\r]/","",$c);}
+          foreach ($b2value as $c2key => $c2value) {
+            //if (is_string($d)) {$d = preg_replace("/[\n\r]/","",$d);}        
+            foreach ($c2value as $d2key => $d2value) {
+              //if (is_string($e)) {$e = preg_replace("/[\n\r]/","",$e);}
+              $X2 = $test2[$test2key][$a2key][$b2key][$c2key][$d2key];
+              if (is_string($X2)) {$X2 = preg_replace("/[\n\r]/","",$X2);}
+              $test2[$test2key][$a2key][$b2key][$c2key][$d2key] = $X2;          
+            }
+          }
+        }
+      }
+    }    
+$chartalentsnew = json_encode($test2,JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE);
+
+$dfg = json_decode($chartalentsnew);
+var_dump($test2);
 echo '</pre>';
+
+
 
 
 
@@ -93,7 +193,7 @@ function getToken() {
 function getCharInfo($charname) {
   
   $token = getToken();
-  $url = "https://eu.api.blizzard.com/wow/character/malfurion/".$charname."?namespace=dynamic-eu&locale=de_DE&fields=reputation,feed,items,professions,progression,stats";
+  $url = "https://eu.api.blizzard.com/wow/character/malfurion/".$charname."?namespace=dynamic-eu&locale=de_DE&fields=reputation,feed,items,professions,progression,stats,statistics,talents";
   $authorization = "Authorization: Bearer ".$token;
 
   $curl = curl_init();
